@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>uTask-lite — Task Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">Tk</span> uTask-lite</div>
+    <p class="side-note">Tugas selesai minggu ini</p>
+    <p class="side-big" id="weekTotal">0</p>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Ganti tema">Ganti tema</button>
+  </aside>
+
+  <main class="main">
+    <section class="card hero">
+      <p id="greetSmall" class="muted"></p>
+      <h1>Cek tugas dan jadwal hari ini</h1>
+      <p id="greetInfo" class="muted"></p>
+    </section>
+
+    <section class="stats">
+      <div class="card stat"><span id="statTotal">0</span><small>Total tugas</small></div>
+      <div class="card stat"><span id="statDone">0</span><small>Selesai</small></div>
+      <div class="card stat"><span id="statLate">0</span><small>Terlambat</small></div>
+    </section>
+
+    <section class="row">
+      <div class="card ring-card">
+        <svg viewBox="0 0 100 100" class="ring" role="img" aria-label="Progres tugas">
+          <circle cx="50" cy="50" r="40" class="ring-bg"/>
+          <circle cx="50" cy="50" r="40" class="ring-fg" id="ringFg"/>
+          <text x="50" y="54" text-anchor="middle" id="ringText">0%</text>
+        </svg>
+        <div><h2>Progres</h2><p class="muted" id="ringInfo"></p></div>
+      </div>
+      <div class="card">
+        <h2>Aktivitas minggu ini</h2>
+        <div id="chart"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 id="formTitle">Tambah tugas</h2>
+      <form id="taskForm" class="form" novalidate>
+        <input id="title" type="text" placeholder="Judul tugas" maxlength="80" autocomplete="off">
+        <select id="priority" aria-label="Prioritas">
+          <option value="high">Tinggi</option>
+          <option value="medium" selected>Sedang</option>
+          <option value="low">Rendah</option>
+        </select>
+        <input id="deadline" type="date" aria-label="Tenggat">
+        <button class="btn" type="submit" id="submitBtn">Simpan tugas</button>
+        <button class="btn ghost" type="button" id="cancelBtn" hidden>Batal</button>
+      </form>
+      <p class="error" id="formError" role="alert"></p>
+
+      <div class="filters" id="filters">
+        <button data-f="all" class="chip active" type="button">Semua</button>
+        <button data-f="active" class="chip" type="button">Aktif</button>
+        <button data-f="done" class="chip" type="button">Selesai</button>
+        <button data-f="overdue" class="chip" type="button">Terlambat</button>
+      </div>
+      <ul id="list" class="list"></ul>
+    </section>
+  </main>
+
+  <aside class="right card">
+    <div class="cal-head">
+      <button class="icon" id="prevM" type="button" aria-label="Bulan sebelumnya">‹</button>
+      <h2 id="calTitle"></h2>
+      <button class="icon" id="nextM" type="button" aria-label="Bulan berikutnya">›</button>
+    </div>
+    <div class="cal" id="cal"></div>
+    <p class="muted small">Titik menandai tenggat. Klik tanggal untuk mengisi formulir.</p>
+  </aside>
+</div>
+
+<script src="js/logic.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

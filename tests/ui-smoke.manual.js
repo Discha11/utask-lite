@@ -1,0 +1,24 @@
+const { JSDOM } = require('jsdom'); const fs = require('fs'); const path = '/home/claude/utask-lite/';
+(async () => {
+  const dom = await JSDOM.fromURL('http://localhost:5599/index.html', { runScripts: 'dangerously', resources: 'usable', pretendToBeVisual: true });
+  await new Promise(r => setTimeout(r, 400));
+  const w = dom.window, d = w.document, $ = id => d.getElementById(id);
+  const add = (title, pr, dl) => { $('title').value = title; $('priority').value = pr; $('deadline').value = dl || ''; $('taskForm').dispatchEvent(new w.Event('submit', {cancelable:true})); };
+  const log = (n, ok) => console.log((ok ? 'OK    ' : 'GAGAL ') + n);
+  log('awal: progres 0% & ada pesan kosong', $('ringText').textContent === '0%' && d.querySelector('.empty'));
+  add('   ', 'high'); log('judul kosong menampilkan galat', $('formError').textContent.length > 0);
+  add('Tugas A', 'high', '2020-01-01'); add('<b>Tugas B</b>', 'low', '');
+  log('2 tugas tampil', d.querySelectorAll('.item').length === 2);
+  log('judul HTML tidak dieksekusi', !d.querySelector('.ttl b'));
+  log('tenggat lampau ditandai terlambat', $('statLate').textContent === '1');
+  d.querySelector('.item input').dispatchEvent(new w.Event('change'));
+  log('centang -> progres 50%', $('ringText').textContent === '50%');
+  log('grafik memuat hari ini = 1', $('weekTotal').textContent === '1');
+  log('data tersimpan di localStorage', JSON.parse(w.localStorage.getItem('utask:tasks')).length === 2);
+  d.querySelector('.item .icon[aria-label^="Hapus"]').dispatchEvent(new w.MouseEvent('click'));
+  log('hapus -> total 1', $('statTotal').textContent === '1');
+  $('themeBtn').dispatchEvent(new w.MouseEvent('click'));
+  log('tema tersimpan', w.localStorage.getItem('utask:theme') !== null);
+  log('kalender terisi', d.querySelectorAll('.day').length >= 28);
+  process.exit(0);
+})();

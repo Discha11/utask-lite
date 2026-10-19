@@ -1,0 +1,10 @@
+{
+  "name": "utask-lite",
+  "version": "1.0.0",
+  "description": "Task dashboard sederhana (HTML, CSS, Vanilla JS) dibuat dengan bantuan Generative AI",
+  "scripts": {
+    "test": "node tests/logic.test.js",
+    "start": "python3 -m http.server 5500"
+  },
+  "license": "MIT"
+}
